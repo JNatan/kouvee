@@ -1,0 +1,27 @@
+<h2 style="text-align:center; margin-bottom:20px;">
+  <%= pegawai ? 'Edit' : 'Tambah' %> Pegawai
+</h2>
+
+<form method="post" 
+      action="<%= pegawai ? '/pegawai/' + pegawai.id_pegawai + '?_method=PUT' : '/pegawai' %>" 
+      style="max-width:500px; margin:auto; display:flex; flex-direction:column; gap:15px;">
+
+  <label>Nama</label>
+  <input name="nama" value="<%= pegawai ? pegawai.nama_pegawai : '' %>" required>
+
+  <label>Alamat</label>
+  <!-- Ganti jadi textarea biar lebih besar -->
+  <textarea name="alamat" rows="3" placeholder="Masukkan alamat lengkap"><%= pegawai ? pegawai.alamat_pegawai : '' %></textarea>
+
+  <label>Tanggal Lahir</label>
+  <input type="date" name="tanggal_lahir"
+         value="<%= pegawai && pegawai.tanggal_lahir_pegawai ? new Date(pegawai.tanggal_lahir_pegawai).toISOString().slice(0,10) : '' %>">
+
+  <label>No Telp</label>
+  <input name="no_telp" value="<%= pegawai ? pegawai.no_telp_pegawai : '' %>" required>
+
+  <button type="submit" 
+          style="padding:10px; background-color:#007bff; color:white; border:none; border-radius:5px;">
+    Simpan
+  </button>
+</form>

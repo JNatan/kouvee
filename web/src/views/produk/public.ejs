@@ -1,0 +1,76 @@
+<h2 style="text-align:center; margin-bottom:20px;">Daftar Produk Kouvee</h2>
+
+<!-- Search + Sort -->
+<div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+
+  <!-- Search -->
+  <form method="get" class="search-bar" style="display:flex; gap:10px;">
+    <input type="text" name="search" placeholder="Cari produk..." value="<%= search || '' %>">
+    <button type="submit">🔍</button>
+  </form>
+
+  <!-- Sort -->
+  <form method="get">
+    <select name="sort" onchange="this.form.submit()" style="padding:8px; border-radius:6px;">
+      <option value="">Urutkan</option>
+      <option value="harga_terendah" <%= sort==='harga_terendah'?'selected':'' %>>Harga Termurah</option>
+      <option value="harga_tertinggi" <%= sort==='harga_tertinggi'?'selected':'' %>>Harga Termahal</option>
+      <option value="stok_terbanyak" <%= sort==='stok_terbanyak'?'selected':'' %>>Stok Terbanyak</option>
+      <option value="stok_tersedikit" <%= sort==='stok_tersedikit'?'selected':'' %>>Stok Tersedikit</option>
+    </select>
+  </form>
+
+</div>
+
+<!-- GRID PRODUK -->
+<div style="
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap:25px;
+  margin-bottom:40px;
+">
+
+  <% produk.forEach(p => { %>
+    <div style="
+      background:white;
+      padding:16px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.08);
+      transition:0.2s;
+    ">
+
+      <!-- Gambar -->
+      <div style="text-align:center;">
+        <% if (p.gambar_produk) { %>
+          <img src="/uploads/<%= p.gambar_produk %>" 
+               style="width:100%; height:200px; object-fit:contain;">
+        <% } else { %>
+          <div style="
+            height:200px; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            background:#eee;">
+            <em>Tidak ada gambar</em>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Nama -->
+      <h3 style="font-size:16px; margin-top:12px; min-height:55px;">
+        <%= p.nama_produk %>
+      </h3>
+
+      <!-- Harga -->
+      <p style="color:#1e88e5; font-weight:bold; font-size:18px;">
+        Rp <%= p.harga_produk.toLocaleString() %>
+      </p>
+
+      <!-- Stok -->
+      <p style="font-size:14px; color:#333;">
+        Stok: <strong><%= p.stok_produk %></strong>
+      </p>
+
+    </div>
+  <% }) %>
+</div>

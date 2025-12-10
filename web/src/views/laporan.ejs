@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan – Kouvee Pet Shop</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6ff;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .container {
+            width: 85%;
+            margin: 35px auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #dce6ff;
+        }
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 45px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.08);
+        }
+        .sub-table {
+            margin-bottom: 35px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div style="text-align:right; margin-bottom:20px;">
+        <a href="/laporan/download" 
+            style="padding:10px 18px; background:#4a63e7; color:white; 
+                    text-decoration:none; border-radius:6px;">
+            Download PDF
+        </a>
+    </div>
+
+    <h1>LAPORAN KOUVEE PET SHOP</h1>
+
+    <% 
+      const namaBulan = [
+        "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ]; 
+    %>
+
+    <!-- ============================ -->
+    <!-- 1. LAPORAN PRODUK TERLARIS -->
+    <!-- ============================ -->
+    <div class="section">
+        <h2>Laporan Produk Terlaris – Tahun <%= tahun || 2025 %></h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Bulan</th>
+                    <th>Nama Produk</th>
+                    <th>Jumlah Penjualan</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <% if (produkTerlaris && produkTerlaris.length > 0) { %>
+                <% produkTerlaris.forEach((p, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= namaBulan[p.bulan] %></td>
+                    <td><%= p.nama_produk %></td>
+                    <td><%= p.jumlah %></td>
+                </tr>
+                <% }) %>
+            <% } else { %>
+                <tr><td colspan="4">Tidak ada data</td></tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ================================ -->
+    <!-- 2. LAPORAN JASA LAYANAN TERLARIS -->
+    <!-- ================================ -->
+    <div class="section">
+        <h2>Laporan Jasa Layanan Terlaris – Tahun <%= tahun || 2025 %></h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Bulan</th>
+                    <th>Nama Layanan</th>
+                    <th>Jumlah Penjualan</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <% if (layananTerlaris && layananTerlaris.length > 0) { %>
+                <% layananTerlaris.forEach((l, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= namaBulan[l.bulan] %></td>
+                    <td><%= l.nama_layanan %></td>
+                    <td><%= l.jumlah %></td>
+                </tr>
+                <% }) %>
+            <% } else { %>
+                <tr><td colspan="4">Tidak ada data</td></tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================ -->
+    <!-- 3. LAPORAN PENDAPATAN TAHUNAN -->
+    <!-- ============================ -->
+    <div class="section">
+        <h2>Laporan Pendapatan Tahunan – Tahun <%= tahun || 2025 %></h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Bulan</th>
+                    <th>Jasa Layanan</th>
+                    <th>Produk</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <% if (pendapatanTahunan && pendapatanTahunan.length > 0) { %>
+                <% pendapatanTahunan.forEach((t, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= namaBulan[t.bulan] %></td>
+                    <td>Rp <%= t.jasa_layanan ? t.jasa_layanan.toLocaleString() : '0' %></td>
+                    <td>Rp <%= t.produk ? t.produk.toLocaleString() : '0' %></td>
+                    <td>Rp <%= t.total ? t.total.toLocaleString() : '0' %></td>
+                </tr>
+                <% }) %>
+            <% } else { %>
+                <tr><td colspan="5">Tidak ada data</td></tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================ -->
+    <!-- 4. LAPORAN PENDAPATAN BULANAN -->
+    <!-- ============================ -->
+    <div class="section">
+        <h2>Laporan Pendapatan Bulanan – <%= namaBulan[bulan] || "Januari" %> <%= tahun || 2025 %></h2>
+
+        <!-- TABEL 1: Layanan -->
+        <div class="sub-table">
+            <h3>Jasa Layanan</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Layanan</th>
+                        <th>Harga</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <% if (pendapatanBulananLayanan && pendapatanBulananLayanan.length > 0) { %>
+                    <% pendapatanBulananLayanan.forEach((item, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= item.nama_layanan %></td>
+                        <td>Rp <%= item.harga ? item.harga.toLocaleString() : '0' %></td>
+                    </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr><td colspan="3">Tidak ada data</td></tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TABEL 2: Produk -->
+        <div class="sub-table">
+            <h3>Produk</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Produk</th>
+                        <th>Harga</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <% if (pendapatanBulananProduk && pendapatanBulananProduk.length > 0) { %>
+                    <% pendapatanBulananProduk.forEach((item, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= item.nama_produk %></td>
+                        <td>Rp <%= item.harga ? item.harga.toLocaleString() : '0' %></td>
+                    </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr><td colspan="3">Tidak ada data</td></tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

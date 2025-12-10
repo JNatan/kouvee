@@ -1,0 +1,145 @@
+<h2 style="text-align:center; margin-bottom:20px;">
+  <%= transaksi ? 'Edit' : 'Tambah' %> Transaksi Layanan
+</h2>
+
+<form method="post"
+      action="<%= transaksi ? '/transaksi-layanan/edit/' + transaksi.id_transaksi : '/transaksi-layanan/create' %>"
+      style="max-width:550px; margin:auto; display:flex; flex-direction:column; gap:15px;">
+
+  <!-- PILIH CUSTOMER -->
+  <label>Customer</label>
+  <select name="id_customer" id="customerSelect" required
+          style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+    <option value="">-- Pilih Customer --</option>
+    <% customers.forEach(c => { %>
+      <option value="<%= c.id_customer %>"
+        <%= transaksi && transaksi.id_customer == c.id_customer ? 'selected' : '' %>>
+        <%= c.nama_customer %>
+      </option>
+    <% }) %>
+  </select>
+
+  <!-- HEWAN -->
+  <label>Hewan</label>
+  <select name="id_hewan" id="hewanSelect" required
+          style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+    <option value="">-- Pilih Hewan --</option>
+  </select>
+
+  <!-- PEGAWAI -->
+  <label>Pegawai (CS)</label>
+  <input type="text" value="<%= user.nama_pegawai %>" disabled
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+  <input type="hidden" name="id_pegawai" value="<%= user.id_pegawai %>">
+
+  <!-- LIST LAYANAN -->
+  <h3>Layanan Dipilih</h3>
+
+  <div id="layanan-list" style="display:flex; flex-direction:column; gap:15px;">
+
+    <% if (detail && detail.length > 0) { %>
+      <% detail.forEach(d => { %>
+        <div class="layanan-item"
+             style="border:1px solid #ddd; padding:10px; border-radius:5px; display:flex; flex-direction:column; gap:10px;">
+          
+          <label>Pilih Layanan</label>
+          <select name="layanan_id[]" class="layananSelect" required
+                  style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+            <% layanan.forEach(l => { %>
+              <option value="<%= l.id_layanan %>" data-harga="<%= l.harga_layanan %>"
+                <%= d.id_layanan == l.id_layanan ? 'selected' : '' %>>
+                <%= l.nama_layanan %> (Rp <%= l.harga_layanan.toLocaleString() %>)
+              </option>
+            <% }) %>
+          </select>
+
+        </div>
+      <% }) %>
+    <% } else { %>
+
+      <!-- default 1 pilihan layanan -->
+      <div class="layanan-item"
+           style="border:1px solid #ddd; padding:10px; border-radius:5px; display:flex; flex-direction:column; gap:10px;">
+
+        <label>Pilih Layanan</label>
+        <select name="layanan_id[]" class="layananSelect" required
+                style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+          <% layanan.forEach(l => { %>
+            <option value="<%= l.id_layanan %>" data-harga="<%= l.harga_layanan %>">
+              <%= l.nama_layanan %> (Rp <%= l.harga_layanan.toLocaleString() %>)
+            </option>
+          <% }) %>
+        </select>
+
+      </div>
+
+    <% } %>
+
+  </div>
+
+  <button type="button" onclick="addLayanan()"
+          style="padding:8px; background:#28a745; color:white; border:none; border-radius:5px;">
+    + Tambah Layanan
+  </button>
+
+  <!-- STATUS (hanya edit yang bisa ubah) -->
+  <label>Status Layanan</label>
+  <select name="status_layanan" <%= transaksi ? '' : 'disabled' %>
+          style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+    <option value="Menunggu" <%= transaksi && transaksi.status_layanan=='Menunggu' ? 'selected':'' %>>Menunggu</option>
+    <option value="Proses" <%= transaksi && transaksi.status_layanan=='Proses' ? 'selected':'' %>>Proses</option>
+    <option value="Selesai" <%= transaksi && transaksi.status_layanan=='Selesai' ? 'selected':'' %>>Selesai</option>
+  </select>
+
+  <% if (!transaksi) { %>
+    <input type="hidden" name="status_layanan" value="Menunggu">
+  <% } %>
+
+  <!-- TOTAL -->
+  <label>Total Harga</label>
+  <input type="number" id="total" name="total" readonly
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+  <button type="submit"
+          style="padding:10px; background:#007bff; color:white; border:none; border-radius:5px;">
+    Simpan
+  </button>
+</form>
+
+<script>
+// Data hewan & layanan tanpa <%- %>
+var hewanData = JSON.parse(atob("<%= hewanJSON %>"));
+var layananData = JSON.parse(atob("<%= layananJSON %>"));
+
+function loadHewan() {
+  const cid = document.getElementById("customerSelect").value;
+  const hewanSelect = document.getElementById("hewanSelect");
+
+  hewanSelect.innerHTML = '<option value="">-- Pilih Hewan --</option>';
+
+  hewanData.filter(h => h.id_customer == cid).forEach(h => {
+    hewanSelect.innerHTML += `<option value="${h.id_hewan}">${h.nama_hewan}</option>`;
+  });
+}
+document.getElementById("customerSelect").addEventListener("change", loadHewan);
+
+function addLayanan() {
+  const item = document.querySelector('.layanan-item').cloneNode(true);
+  document.getElementById('layanan-list').appendChild(item);
+  hitungTotal();
+}
+
+document.addEventListener("change", hitungTotal);
+
+function hitungTotal() {
+  let total = 0;
+  document.querySelectorAll(".layananSelect").forEach(sel => {
+    let harga = sel.selectedOptions[0].dataset.harga;
+    total += parseInt(harga || 0);
+  });
+  document.getElementById("total").value = total;
+}
+
+loadHewan();
+hitungTotal();
+</script>

@@ -1,0 +1,32 @@
+<h2>Detail Transaksi Layanan</h2>
+
+<p><strong>ID Transaksi:</strong> <%= transaksi.id_transaksi %></p>
+
+<p><strong>Tanggal:</strong> 
+  <%= new Date(transaksi.tanggal_transaksi).toLocaleDateString('id-ID',{
+      day:'2-digit', month:'long', year:'numeric'
+  }) %>
+</p>
+
+<p><strong>Customer:</strong> <%= transaksi.nama_customer %></p>
+<p><strong>Pegawai (CS):</strong> <%= transaksi.nama_pegawai %></p>
+<p><strong>Hewan:</strong> <%= transaksi.nama_hewan || '-' %></p>
+<p><strong>Status:</strong> <%= transaksi.status_pelayanan || 'Menunggu' %></p>
+<p><strong>Total:</strong> Rp <%= transaksi.total.toLocaleString() %></p>
+
+<hr style="margin:20px 0;">
+
+<h3>Layanan yang Dipilih</h3>
+
+<% if (detail && detail.length > 0) { %>
+  <% detail.forEach(d => { %>
+    <div style="padding:10px 0; border-bottom:1px solid #ddd;">
+      <p><strong>Nama Layanan:</strong> <%= d.nama_layanan %></p>
+    </div>
+  <% }) %>
+<% } else { %>
+  <p><em>Tidak ada detail layanan.</em></p>
+<% } %>
+
+<br>
+<a href="/transaksi-layanan">← Kembali</a>

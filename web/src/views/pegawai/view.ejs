@@ -1,0 +1,6 @@
+<h2>Detail Pegawai</h2>
+<p><strong>Nama:</strong> <%= pegawai.nama_pegawai %></p>
+<p><strong>Alamat:</strong> <%= pegawai.alamat_pegawai %></p>
+<p><strong>Tanggal Lahir:</strong> <%= pegawai.tanggal_lahir_pegawai ? new Date(pegawai.tanggal_lahir_pegawai).toLocaleDateString() : '-' %></p>
+<p><strong>No Telp:</strong> <%= pegawai.no_telp_pegawai %></p>
+<a href="/pegawai">Kembali</a>

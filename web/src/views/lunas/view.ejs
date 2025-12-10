@@ -1,0 +1,79 @@
+<h2 style="margin-bottom:20px;">Detail Transaksi Lunas</h2>
+
+<p><strong>ID Transaksi:</strong> <%= transaksi.id_transaksi %></p>
+
+<p><strong>Tanggal:</strong> 
+  <%= new Date(transaksi.tanggal_transaksi).toLocaleDateString("id-ID", {
+    day:"2-digit", month:"long", year:"numeric"
+  }) %>
+</p>
+
+<p><strong>Customer:</strong> <%= transaksi.nama_customer %></p>
+<p><strong>Pegawai (CS):</strong> <%= transaksi.nama_pegawai %></p>
+
+<hr>
+
+<h3>Ringkasan Pembayaran</h3>
+
+<p><strong>Total Sebelum Diskon:</strong> 
+  Rp <%= transaksi.total.toLocaleString("id-ID") %>
+</p>
+
+<p><strong>Diskon:</strong> 
+  Rp <%= transaksi.diskon.toLocaleString("id-ID") %>
+</p>
+
+<p><strong>Total Setelah Diskon:</strong> 
+  <span style="color:green; font-weight:bold;">
+    Rp <%= transaksi.total_setelah_diskon.toLocaleString("id-ID") %>
+  </span>
+</p>
+
+<p><strong>Total Pembayaran Masuk:</strong> 
+  Rp <%= transaksi.bayar_total.toLocaleString("id-ID") %>
+</p>
+
+<p><strong>Sisa Pembayaran:</strong> 
+  <% if (transaksi.sisa == 0) { %>
+    <span style="color:green; font-weight:bold;">LUNAS</span>
+  <% } else { %>
+    Rp <%= transaksi.sisa.toLocaleString("id-ID") %>
+  <% } %>
+</p>
+
+<hr>
+
+<h3>Detail Produk</h3>
+
+<% if (detailProduk.length > 0) { %>
+  <% detailProduk.forEach(d => { %>
+    <p>
+      <strong>Produk:</strong> <%= d.nama_produk %><br>
+      <strong>Harga:</strong> Rp <%= d.harga_produk.toLocaleString('id-ID') %><br>
+      <strong>Jumlah:</strong> <%= d.jumlah %><br>
+      <strong>Subtotal:</strong> 
+        Rp <%= (d.harga_produk * d.jumlah).toLocaleString("id-ID") %>
+    </p>
+    <hr>
+  <% }) %>
+<% } else { %>
+  <p><em>Tidak ada produk.</em></p>
+<% } %>
+
+<h3>Detail Layanan</h3>
+
+<% if (detailLayanan.length > 0) { %>
+  <% detailLayanan.forEach(d => { %>
+    <p>
+      <strong>Layanan:</strong> <%= d.nama_layanan %><br>
+      <strong>Harga:</strong> Rp <%= d.harga_layanan.toLocaleString('id-ID') %><br>
+      <strong>Subtotal:</strong> Rp <%= d.harga_layanan.toLocaleString('id-ID') %>
+    </p>
+    <hr>
+  <% }) %>
+<% } else { %>
+  <p><em>Tidak ada layanan.</em></p>
+<% } %>
+
+<a href="/lunas/cetak/<%= transaksi.id_transaksi %>" class="btn primary">Cetak Struk</a>
+<a href="/lunas" class="btn">← Kembali</a>

@@ -1,0 +1,44 @@
+<h2 style="text-align:center; margin-bottom:20px;">
+  <%= produk ? 'Edit' : 'Tambah' %> Produk
+</h2>
+
+<form method="post"
+      enctype="multipart/form-data"
+      action="<%= produk ? '/produk/' + produk.id_produk + '?_method=PUT' : '/produk' %>"
+      style="max-width:500px; margin:auto; display:flex; flex-direction:column; gap:15px;">
+
+  <label>Nama Produk</label>
+  <input name="nama"
+         value="<%= produk ? produk.nama_produk : '' %>"
+         required
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+  <label>Harga Produk</label>
+  <input type="number"
+         name="harga"
+         value="<%= produk ? produk.harga_produk : '' %>"
+         required
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+  <label>Stok Produk</label>
+  <input type="number"
+         name="stok"
+         value="<%= produk ? produk.stok_produk : '' %>"
+         required
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+  <label>Gambar Produk</label>
+  <% if (produk && produk.gambar_produk) { %>
+    <img src="/uploads/<%= produk.gambar_produk %>"
+         alt="Gambar Produk"
+         width="120"
+         style="margin-bottom:10px; border-radius:5px;">
+    <input type="hidden" name="gambar_lama" value="<%= produk.gambar_produk %>">
+  <% } %>
+  <input type="file" name="gambar" accept="image/*">
+
+  <button type="submit"
+          style="padding:10px; background:#007bff; color:white; border:none; border-radius:5px;">
+    Simpan
+  </button>
+</form>

@@ -1,0 +1,16 @@
+<h2>Detail Produk</h2>
+
+<% if (produk.gambar_produk) { %>
+  <div style="margin-bottom:15px;">
+    <img src="/uploads/<%= produk.gambar_produk %>" width="250" style="border-radius:6px; box-shadow:0 0 5px rgba(0,0,0,0.2);">
+  </div>
+<% } else { %>
+  <p><em>Tidak ada gambar</em></p>
+<% } %>
+
+<p><strong>Nama:</strong> <%= produk.nama_produk %></p>
+<p><strong>Harga:</strong> Rp <%= produk.harga_produk.toLocaleString() %></p>
+<p><strong>Stok:</strong> <%= produk.stok_produk %></p>
+
+<br>
+<a href="/produk">← Kembali</a>

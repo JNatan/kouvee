@@ -1,0 +1,48 @@
+<div class="top-actions">
+  <form method="get" action="/produk" class="search-bar">
+    <input name="q" placeholder="Cari nama produk..." value="<%= q %>">
+    <button title="Cari"><i class="fa fa-search"></i></button>
+  </form>
+  <a class="btn primary" href="/produk/create">+ Produk Baru</a>
+</div>
+
+<table class="table sleek">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Gambar</th>
+      <th>Nama</th>
+      <th>Harga</th>
+      <th>Stok</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% produk.forEach(p => { %>
+      <tr>
+        <td><%= p.id_produk %></td>
+
+        <!-- 🖼️ tampilkan gambar jika ada -->
+        <td>
+          <% if (p.gambar_produk) { %>
+            <img src="/uploads/<%= p.gambar_produk %>" width="60" height="60" style="object-fit:cover; border-radius:4px;">
+          <% } else { %>
+            <span style="color:#888;">(Tidak ada)</span>
+          <% } %>
+        </td>
+
+        <td><%= p.nama_produk %></td>
+        <td>Rp <%= p.harga_produk.toLocaleString() %></td>
+        <td><%= p.stok_produk %></td>
+
+        <td class="actions">
+          <a href="/produk/view/<%= p.id_produk %>" class="btn small">View</a>
+          <a href="/produk/edit/<%= p.id_produk %>" class="btn small">Edit</a>
+          <form action="/produk/<%= p.id_produk %>?_method=DELETE" method="post" style="display:inline">
+            <button type="submit" class="btn small danger" onclick="return confirm('Yakin ingin menghapus produk ini?')">Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

@@ -1,0 +1,140 @@
+<h2 style="margin-bottom:20px;">Edit Item Transaksi</h2>
+
+<p><strong>ID Transaksi:</strong> <%= trx.id_transaksi %></p>
+<p><strong>Jenis Transaksi:</strong> <%= trx.jenis_transaksi %></p>
+
+<hr>
+
+<form method="POST" style="margin-top:20px;">
+
+  <!-- ========================= -->
+  <!-- PRODUK -->
+  <!-- ========================= -->
+  <h3>Produk</h3>
+
+  <div id="produk-container">
+    <% detailProduk.forEach((p, i) => { %>
+      <div class="produk-row item-box">
+        <input type="hidden" name="row_produk[]" value="<%= p.id_detail_produk %>">
+
+        <label>Produk</label>
+        <select name="produk_id[]" required>
+          <option value="">-- pilih produk --</option>
+          <% produk.forEach(pr => { %>
+            <option value="<%= pr.id_produk %>" <%= pr.id_produk === p.id_produk ? "selected" : "" %>>
+              <%= pr.nama_produk %> - Rp <%= pr.harga_produk.toLocaleString('id-ID') %>
+            </option>
+          <% }) %>
+        </select>
+
+        <label>Jumlah</label>
+        <input type="number" name="jumlah[]" min="1" value="<%= p.jumlah %>" required>
+
+        <button type="button" class="btn small danger" onclick="hapusItem(this)">Hapus</button>
+      </div>
+    <% }) %>
+  </div>
+
+  <button type="button" onclick="addProduk()" class="btn small">+ Tambah Produk</button>
+
+  <hr>
+
+  <!-- ========================= -->
+  <!-- LAYANAN -->
+  <!-- ========================= -->
+  <h3>Layanan</h3>
+
+  <div id="layanan-container">
+    <% detailLayanan.forEach((l, i) => { %>
+      <div class="layanan-row item-box">
+        <input type="hidden" name="row_layanan[]" value="<%= l.id_detail_layanan %>">
+
+        <label>Layanan</label>
+        <select name="layanan_id[]" required>
+          <option value="">-- pilih layanan --</option>
+          <% layanan.forEach(lv => { %>
+            <option value="<%= lv.id_layanan %>" <%= lv.id_layanan === l.id_layanan ? "selected" : "" %>>
+              <%= lv.nama_layanan %> - Rp <%= lv.harga_layanan.toLocaleString('id-ID') %>
+            </option>
+          <% }) %>
+        </select>
+
+        <button type="button" class="btn small danger" onclick="hapusItem(this)">Hapus</button>
+      </div>
+    <% }) %>
+  </div>
+
+  <button type="button" onclick="addLayanan()" class="btn small">+ Tambah Layanan</button>
+
+  <hr>
+
+  <button type="submit" class="btn primary">Simpan Perubahan</button>
+  <a href="/pembayaran" class="btn">Kembali</a>
+
+</form>
+
+<style>
+  .item-box {
+    margin-bottom: 10px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+
+  .btn.small.danger {
+    background: #d9534f;
+    color: white;
+    margin-left: 10px;
+  }
+
+  .btn.small.danger:hover {
+    background: #c9302c;
+  }
+</style>
+
+<script>
+  function hapusItem(btn) {
+    btn.parentElement.remove();
+  }
+
+  function addProduk() {
+    const html = `
+      <div class="produk-row item-box">
+        <input type="hidden" name="row_produk[]" value="new">
+
+        <label>Produk</label>
+        <select name="produk_id[]" required>
+          <option value="">-- pilih produk --</option>
+          <% produk.forEach(p => { %>
+            <option value="<%= p.id_produk %>"><%= p.nama_produk %> - Rp <%= p.harga_produk.toLocaleString('id-ID') %></option>
+          <% }) %>
+        </select>
+
+        <label>Jumlah</label>
+        <input type="number" name="jumlah[]" min="1" value="1" required>
+
+        <button type="button" class="btn small danger" onclick="hapusItem(this)">Hapus</button>
+      </div>
+    `;
+    document.getElementById("produk-container").insertAdjacentHTML('beforeend', html);
+  }
+
+  function addLayanan() {
+    const html = `
+      <div class="layanan-row item-box">
+        <input type="hidden" name="row_layanan[]" value="new">
+
+        <label>Layanan</label>
+        <select name="layanan_id[]" required>
+          <option value="">-- pilih layanan --</option>
+          <% layanan.forEach(l => { %>
+            <option value="<%= l.id_layanan %>"><%= l.nama_layanan %> - Rp <%= l.harga_layanan.toLocaleString('id-ID') %></option>
+          <% }) %>
+        </select>
+
+        <button type="button" class="btn small danger" onclick="hapusItem(this)">Hapus</button>
+      </div>
+    `;
+    document.getElementById("layanan-container").insertAdjacentHTML('beforeend', html);
+  }
+</script>

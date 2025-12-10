@@ -1,0 +1,40 @@
+<div class="top-actions">
+  <form method="get" action="/customers" class="search-bar">
+    <input name="q" placeholder="Cari nama atau telepon..." value="<%= q %>">
+    <button title="Cari"><i class="fa fa-search"></i></button>
+  </form>
+  <a class="btn primary" href="/customers/create">+ Customer Baru</a>
+</div>
+
+
+<table class="table sleek">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama</th>
+      <th>No. Telp</th>
+      <th>Alamat</th>
+      <th>Tgl Lahir</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% customers.forEach(c => { %>
+      <tr>
+        <td><%= c.id_customer %></td>
+        <td><%= c.nama_customer %></td>
+        <td><%= c.no_telp_customer %></td>
+        <td><%= c.alamat_customer %></td>
+        <td><%= c.tanggal_lahir_customer ? new Date(c.tanggal_lahir_customer).toLocaleDateString() : '-' %></td>
+        <td class="actions">
+          <a href="/customers/view/<%= c.id_customer %>" class="btn small">View</a>
+          <a href="/customers/edit/<%= c.id_customer %>" class="btn small">Edit</a>
+          <form action="/customers/<%= c.id_customer %>?_method=DELETE" method="post" style="display:inline">
+            <button type="submit" class="btn small danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+

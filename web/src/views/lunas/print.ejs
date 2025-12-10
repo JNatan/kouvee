@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cetak Struk</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    width: 700px;
+    margin: auto;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .title-big {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+
+  .company-info {
+    font-size: 14px;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px 6px;
+    font-size: 14px;
+  }
+
+  .right { text-align: right; }
+  .bold { font-weight: bold; }
+
+  .no-border td {
+    border: none;
+    padding: 4px 0;
+  }
+
+  .total-line td {
+    border: none;
+    padding: 4px 0;
+    font-size: 15px;
+  }
+</style>
+
+</head>
+
+<body onload="window.print()">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="/public/img/logo.png" width="140">
+    <div>
+      <div class="title-big">KOUVEE PET SHOP</div>
+      <div class="company-info">
+        Jl. Moses Gatotkaca No. 22 Yogyakarta 55281 <br>
+        Telp. (0274) 357735 <br>
+        http://www.sayanghewan.com
+      </div>
+    </div>
+  </div>
+
+  <h2 class="center" style="margin-top:10px;">NOTA LUNAS</h2>
+
+  <!-- INFO UTAMA -->
+  <table class="no-border">
+    <tr>
+      <td>No Transaksi :</td>
+      <td><%= trx.kode_transaksi %></td>
+      <td class="right"><%= trx.tanggal_full %></td>
+    </tr>
+
+    <tr>
+      <td>Member :</td>
+      <td><%= trx.nama_customer %></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Telepon :</td>
+      <td><%= trx.no_telp_customer %></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>CS :</td>
+      <td><%= trx.cs_name %></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Kasir :</td>
+      <td><%= trx.kasir_name %></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <!-- PRODUK -->
+  <% if (detailProduk.length > 0) { %>
+    <h3 class="center" style="margin-top:25px;">Produk</h3>
+    <table>
+      <tr>
+        <th>No</th>
+        <th>Nama Produk</th>
+        <th>Harga</th>
+        <th>Jumlah</th>
+        <th>Harga</th>
+      </tr>
+
+      <% detailProduk.forEach((p, i) => { %>
+        <tr>
+          <td class="center"><%= i+1 %></td>
+          <td><%= p.nama_produk %></td>
+          <td>Rp. <%= p.harga_produk.toLocaleString("id-ID") %>, -</td>
+          <td class="center"><%= p.jumlah %></td>
+          <td>Rp. <%= (p.harga_produk * p.jumlah).toLocaleString("id-ID") %>, -</td>
+        </tr>
+      <% }) %>
+    </table>
+  <% } %>
+
+  <!-- LAYANAN -->
+  <% if (detailLayanan.length > 0) { %>
+    <h3 class="center" style="margin-top:25px;">Layanan</h3>
+    <table>
+      <tr>
+        <th>No</th>
+        <th>Nama Layanan</th>
+        <th>Harga</th>
+        <th>Jumlah</th>
+        <th>Harga</th>
+      </tr>
+
+      <% detailLayanan.forEach((l, i) => { %>
+        <tr>
+          <td class="center"><%= i+1 %></td>
+          <td><%= l.nama_layanan %></td>
+          <td>Rp. <%= l.harga_layanan.toLocaleString("id-ID") %>, -</td>
+          <td class="center">1</td>
+          <td>Rp. <%= l.harga_layanan.toLocaleString("id-ID") %>, -</td>
+        </tr>
+      <% }) %>
+    </table>
+  <% } %>
+
+  <!-- TOTAL AKHIR -->
+  <table class="no-border" style="margin-top:20px; width:300px; float:right;">
+    <tr class="total-line">
+      <td class="right">Sub Total :</td>
+      <td class="right">Rp. <%= trx.total.toLocaleString("id-ID") %>, -</td>
+    </tr>
+
+    <tr class="total-line">
+      <td class="right">Diskon :</td>
+      <td class="right">Rp. <%= trx.diskon.toLocaleString("id-ID") %>, -</td>
+    </tr>
+
+    <tr class="total-line bold">
+      <td class="right">TOTAL :</td>
+      <td class="right">Rp. <%= trx.total_setelah_diskon.toLocaleString("id-ID") %>, -</td>
+    </tr>
+  </table>
+
+</body>
+</html>

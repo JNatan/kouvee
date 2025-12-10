@@ -1,0 +1,138 @@
+<h2 style="text-align:center; margin-bottom:20px;">
+  <%= transaksi ? 'Edit' : 'Tambah' %> Transaksi Produk
+</h2>
+
+<form method="post"
+      action="<%= transaksi ? '/transaksi-produk/edit/' + transaksi.id_transaksi : '/transaksi-produk/create' %>"
+      style="max-width:550px; margin:auto; display:flex; flex-direction:column; gap:15px;">
+
+  <!-- CUSTOMER -->
+  <label>Customer</label>
+  <select name="id_customer" required style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+    <% customers.forEach(c => { %>
+      <option value="<%= c.id_customer %>"
+        <%= transaksi && transaksi.id_customer == c.id_customer ? 'selected' : '' %>>
+        <%= c.nama_customer %>
+      </option>
+    <% }) %>
+  </select>
+
+  <!-- PEGAWAI -->
+  <label>Pegawai (CS)</label>
+  <input type="text" value="<%= user.nama_pegawai %>" disabled
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+  <input type="hidden" name="id_pegawai" value="<%= user.id_pegawai %>">
+
+  <!-- JENIS TRANSAKSI -->
+  <label>Jenis Transaksi</label>
+  <input type="text" name="jenis_transaksi" value="Produk" readonly
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+  <h3 style="margin-top:10px;">Produk Dibeli</h3>
+
+  <!-- LIST PRODUK -->
+  <div id="produk-list" style="display:flex; flex-direction:column; gap:15px;">
+
+    <% if (Array.isArray(detail) && detail.length > 0) { %>
+      <!-- TAMPILKAN PRODUK LAMA (EDIT MODE) -->
+      <% detail.forEach(item => { %>
+
+        <div class="produk-item"
+             style="border:1px solid #ddd; padding:10px; border-radius:5px; display:flex; flex-direction:column; gap:10px;">
+
+          <label>Pilih Produk</label>
+          <select name="produk_id[]" class="produkSelect" required
+                  style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+            <% produk.forEach(p => { %>
+              <option value="<%= p.id_produk %>"
+                      data-harga="<%= p.harga_produk %>"
+                      <%= item.id_produk == p.id_produk ? 'selected' : '' %>>
+                <%= p.nama_produk %> - Rp <%= p.harga_produk.toLocaleString() %>
+              </option>
+            <% }) %>
+
+          </select>
+
+          <label>Jumlah</label>
+          <input type="number" name="jumlah[]" class="jumlahInput" min="1"
+                 value="<%= item.jumlah %>" required
+                 style="padding:8px; border:1px solid #ccc; border-radius:5px; width:120px;">
+        </div>
+
+      <% }) %>
+
+    <% } else { %>
+      <!-- MODE TAMBAH — DEFAULT 1 ITEM PRODUK -->
+      <div class="produk-item"
+           style="border:1px solid #ddd; padding:10px; border-radius:5px; display:flex; flex-direction:column; gap:10px;">
+
+        <label>Pilih Produk</label>
+        <select name="produk_id[]" class="produkSelect" required
+                style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+          <% produk.forEach(p => { %>
+            <option value="<%= p.id_produk %>" data-harga="<%= p.harga_produk %>">
+              <%= p.nama_produk %> - Rp <%= p.harga_produk.toLocaleString() %>
+            </option>
+          <% }) %>
+        </select>
+
+        <label>Jumlah</label>
+        <input type="number" name="jumlah[]" class="jumlahInput" min="1" value="1" required
+               style="padding:8px; border:1px solid #ccc; border-radius:5px; width:120px;">
+      </div>
+    <% } %>
+
+  </div>
+
+  <!-- BTN ADD PRODUK -->
+  <button type="button" onclick="addProduk()"
+          style="padding:8px; background:#28a745; color:white; border:none; border-radius:5px;">
+    + Tambah Produk
+  </button>
+
+  <!-- TOTAL -->
+  <label>Total Harga</label>
+  <input type="number" id="total" name="total" readonly
+         style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+  <!-- SUBMIT -->
+  <button type="submit"
+          style="padding:10px; background:#007bff; color:white; border:none; border-radius:5px;">
+    Simpan
+  </button>
+</form>
+
+<script>
+function addProduk() {
+  const item = document.querySelector('.produk-item').cloneNode(true);
+  item.querySelector('.jumlahInput').value = 1; // reset jumlah
+  document.getElementById('produk-list').appendChild(item);
+  hitungTotal();
+}
+
+document.addEventListener('input', e => {
+  if (e.target.classList.contains('produkSelect') ||
+      e.target.classList.contains('jumlahInput')) {
+    hitungTotal();
+  }
+});
+
+function hitungTotal() {
+  let total = 0;
+  document.querySelectorAll('.produk-item').forEach(item => {
+    const produkSelect = item.querySelector('.produkSelect');
+    const jumlahInput = item.querySelector('.jumlahInput');
+
+    const harga = parseInt(produkSelect.selectedOptions[0].dataset.harga);
+    const jumlah = parseInt(jumlahInput.value) || 1;
+
+    total += harga * jumlah;
+  });
+
+  document.getElementById('total').value = total;
+}
+
+// Hitung total setelah halaman dimuat (edit mode)
+hitungTotal();
+</script>

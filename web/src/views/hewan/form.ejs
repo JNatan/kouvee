@@ -1,0 +1,33 @@
+<h2 style="text-align:center; margin-bottom:20px;">
+  <%= hewan ? 'Edit' : 'Tambah' %> Hewan
+</h2>
+
+<form method="post" 
+      action="<%= hewan ? '/hewans/' + hewan.id_hewan + '?_method=PUT' : '/hewans' %>" 
+      style="max-width:500px; margin:auto; display:flex; flex-direction:column; gap:15px;">
+
+  <label>Nama Hewan</label>
+  <input name="nama" value="<%= hewan ? hewan.nama_hewan : '' %>" required>
+
+  <label>Tanggal Lahir</label>
+  <input type="date" name="tanggal_lahir" 
+         value="<%= hewan && hewan.tanggal_lahir_hewan ? (new Date(hewan.tanggal_lahir_hewan)).toISOString().slice(0,10) : '' %>">
+
+  <label>Jenis</label>
+  <input name="jenis" value="<%= hewan ? hewan.jenis_hewan : '' %>" required>
+
+  <label>Owner (Customer)</label>
+  <select name="id_customer" required>
+    <% customers.forEach(c => { %>
+      <option value="<%= c.id_customer %>" 
+              <%= hewan && hewan.id_customer == c.id_customer ? 'selected' : '' %>>
+        <%= c.nama_customer %>
+      </option>
+    <% }) %>
+  </select>
+
+  <button type="submit" 
+          style="padding:10px; background-color:#007bff; color:white; border:none; border-radius:5px;">
+    Simpan
+  </button>
+</form>

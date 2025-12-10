@@ -1,0 +1,38 @@
+<div class="top-actions">
+  <form method="get" action="/pegawai" class="search-bar">
+    <input name="q" placeholder="Cari nama atau telepon..." value="<%= q %>">
+    <button title="Cari"><i class="fa fa-search"></i></button>
+  </form>
+  <a class="btn primary" href="/pegawai/create">+ Pegawai Baru</a>
+</div>
+
+<table class="table sleek">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama</th>
+      <th>Alamat</th>
+      <th>Tgl Lahir</th>
+      <th>No. Telp</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% pegawai.forEach(p => { %>
+      <tr>
+        <td><%= p.id_pegawai %></td>
+        <td><%= p.nama_pegawai %></td>
+        <td><%= p.alamat_pegawai %></td>
+        <td><%= p.tanggal_lahir_pegawai ? new Date(p.tanggal_lahir_pegawai).toLocaleDateString() : '-' %></td>
+        <td><%= p.no_telp_pegawai %></td>
+        <td class="actions">
+          <a href="/pegawai/view/<%= p.id_pegawai %>" class="btn small">View</a>
+          <a href="/pegawai/edit/<%= p.id_pegawai %>" class="btn small">Edit</a>
+          <form action="/pegawai/<%= p.id_pegawai %>?_method=DELETE" method="post" style="display:inline">
+            <button type="submit" class="btn small danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

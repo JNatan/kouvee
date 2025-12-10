@@ -1,0 +1,36 @@
+<div class="top-actions">
+  <form method="get" action="/layanan" class="search-bar">
+    <input name="q" placeholder="Cari nama atau deskripsi layanan..." value="<%= q %>">
+    <button title="Cari"><i class="fa fa-search"></i></button>
+  </form>
+  <a class="btn primary" href="/layanan/create">+ Layanan Baru</a>
+</div>
+
+<table class="table sleek">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama</th>
+      <th>Deskripsi</th>
+      <th>Harga</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% layanan.forEach(l => { %>
+      <tr>
+        <td><%= l.id_layanan %></td>
+        <td><%= l.nama_layanan %></td>
+        <td><%= l.deskripsi_layanan %></td>
+        <td>Rp <%= l.harga_layanan.toLocaleString() %></td>
+        <td class="actions">
+          <a href="/layanan/view/<%= l.id_layanan %>" class="btn small">View</a>
+          <a href="/layanan/edit/<%= l.id_layanan %>" class="btn small">Edit</a>
+          <form action="/layanan/<%= l.id_layanan %>?_method=DELETE" method="post" style="display:inline">
+            <button type="submit" class="btn small danger" onclick="return confirm('Yakin ingin menghapus layanan ini?')">Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

@@ -1,0 +1,247 @@
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background: #f4f6f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e88e5;
+  color: white;
+  padding: 12px 24px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 14px;
+  transition: 0.2s;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.nav .brand {
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 20px;
+}
+
+.nav-left a {
+  margin-right: 18px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* teks user */
+.user-info {
+  font-weight: 600;
+  margin-right: 6px;
+  color: #fff;
+}
+
+.top-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn.primary {
+  background: #43a047;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn.primary:hover {
+  background: #2e7d32;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table.sleek th {
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+.table.sleek th,
+.table.sleek td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+}
+.table tr.clickable:hover {
+  background: #f1f8e9;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.icon-btn {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-btn.view:hover { background: #e3f2fd; }
+.icon-btn.edit:hover { background: #e8f5e9; }
+.icon-btn.delete:hover { background: #ffebee; }
+
+.icon-btn.view { color: #1565c0; }
+.icon-btn.edit { color: #2e7d32; }
+.icon-btn.delete { color: #c62828; }
+
+.login-form {
+  max-width: 400px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.login-form h2 {
+  text-align: center;
+  color: #1565c0;
+  margin-bottom: 25px;
+}
+
+.login-form .form-group {
+  margin-bottom: 15px;
+}
+
+.login-form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn.full {
+  width: 100%;
+}
+
+.btn.small {
+  font-size: 13px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-right: 4px;
+  cursor: pointer;
+  color: white;
+  background: #1976d2;
+  transition: background 0.2s ease;
+}
+.btn.small:hover {
+  background: #0d47a1;
+}
+
+.btn.small.danger {
+  background: #e53935;
+}
+.btn.small.danger:hover {
+  background: #b71c1c;
+}
+
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 14px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.popup.success {
+  background: #43a047;
+}
+
+.popup.error {
+  background: #e53935;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 220px;
+  font-size: 14px;
+}
+
+.search-bar button {
+  background: #1e88e5;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-bar button:hover {
+  background: #1565c0;
+}
+
+.search-bar i {
+  pointer-events: none;
+  font-style: normal;
+}

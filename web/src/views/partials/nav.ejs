@@ -1,0 +1,40 @@
+<nav class="nav">
+
+  <!-- KIRI -->
+  <div class="nav-left">
+    <a href="/">Home</a>
+
+    <% if (!user) { %>
+      <a href="/produk/lihat">Produk</a>
+      <a href="/layanan/lihat">Layanan</a>
+    <% } %>
+
+    <% if (user) { %>
+      <% if (user.jabatan === 'CS') { %>
+        <a href="/customers">Customers</a>
+        <a href="/hewans">Hewan</a>
+        <a href="/transaksi-produk">Transaksi Produk</a>
+        <a href="/transaksi-layanan">Transaksi Layanan</a>
+      <% } else if (user.jabatan === 'Owner') { %>
+        <a href="/pegawai">Pegawai</a>
+        <a href="/produk">Produk</a>
+        <a href="/layanan">Layanan</a>
+        <a href="/laporan">Laporan</a>
+      <% } else if (user.jabatan === 'Kasir') { %>
+        <a href="/pembayaran">Pembayaran</a>
+        <a href="/lunas">Lunas</a>
+      <% } %>
+    <% } %>
+  </div>
+
+  <!-- KANAN -->
+  <div class="nav-right">
+    <% if (!user) { %>
+      <a href="/auth/login">Login</a>
+    <% } else { %>
+      <span>Hi, <%= user.nama_pegawai %> (<%= user.jabatan %>)</span>
+      <a href="/auth/logout">Logout</a>
+    <% } %>
+  </div>
+
+</nav>

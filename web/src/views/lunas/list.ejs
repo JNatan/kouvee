@@ -1,0 +1,41 @@
+<h2 style="text-align:center; margin-bottom:20px;">Transaksi Lunas</h2>
+
+<table class="table sleek" 
+       style="width:90%; margin:auto; border-collapse:collapse; text-align:center;">
+
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Customer</th>
+      <th>Tanggal</th>
+      <th>Total Bayar</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% transaksi.forEach(t => { %>
+      <tr>
+        <td><%= t.id_transaksi %></td>
+
+        <td><%= t.nama_customer %></td>
+
+        <td>
+          <%= new Date(t.tanggal_transaksi).toLocaleDateString('id-ID', {
+            day:'2-digit', month:'long', year:'numeric'
+          }) %>
+        </td>
+
+        <td>
+          Rp <%= t.total_setelah_diskon.toLocaleString('id-ID') %>
+        </td>
+
+        <td>
+          <a href="/lunas/view/<%= t.id_transaksi %>" class="btn small">View</a>
+          <a href="/lunas/cetak/<%= t.id_transaksi %>" class="btn small primary">Cetak</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+
+</table>

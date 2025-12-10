@@ -1,0 +1,39 @@
+<div class="top-actions">
+  <form method="get" action="/hewans" class="search-bar">
+    <input name="q" placeholder="Cari nama hewan, jenis, atau pemilik..." value="<%= q %>">
+    <button title="Cari"><i class="fa fa-search"></i></button>
+  </form>
+  <a class="btn primary" href="/hewans/create">+ Tambah Hewan</a>
+</div>
+
+
+<table class="table sleek">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nama Hewan</th>
+      <th>Jenis</th>
+      <th>Owner</th>
+      <th>Tgl Lahir</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% hewans.forEach(h => { %>
+      <tr>
+        <td><%= h.id_hewan %></td>
+        <td><%= h.nama_hewan %></td>
+        <td><%= h.jenis_hewan %></td>
+        <td><%= h.nama_customer %></td>
+        <td><%= h.tanggal_lahir_hewan ? new Date(h.tanggal_lahir_hewan).toLocaleDateString() : '-' %></td>
+        <td class="actions">
+          <a href="/hewans/view/<%= h.id_hewan %>" class="btn small">View</a>
+          <a href="/hewans/edit/<%= h.id_hewan %>" class="btn small">Edit</a>
+          <form action="/hewans/<%= h.id_hewan %>?_method=DELETE" method="post" style="display:inline">
+            <button type="submit" class="btn small danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

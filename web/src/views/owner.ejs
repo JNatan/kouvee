@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+  <h1>Halo, <%= user.nama_pegawai %> (Owner)</h1>
+  <h2>Data Pegawai</h2>
+  <table border="1" cellpadding="6">
+    <tr><th>ID</th><th>Nama</th><th>Alamat</th><th>No. Telp</th></tr>
+    <% pegawai.forEach(p => { %>
+      <tr>
+        <td><%= p.id_pegawai %></td>
+        <td><%= p.nama_pegawai %></td>
+        <td><%= p.alamat_pegawai %></td>
+        <td><%= p.no_telp_pegawai %></td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <h2>Data Produk</h2>
+  <table border="1" cellpadding="6">
+    <tr><th>ID</th><th>Nama</th><th>Harga</th><th>Stok</th></tr>
+    <% produk.forEach(pr => { %>
+      <tr>
+        <td><%= pr.id_produk %></td>
+        <td><%= pr.nama_produk %></td>
+        <td><%= pr.harga_produk %></td>
+        <td><%= pr.stok_produk %></td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <h2>Data Layanan</h2>
+  <table border="1" cellpadding="6">
+    <tr><th>ID</th><th>Nama</th><th>Deskripsi</th><th>Harga</th></tr>
+    <% layanan.forEach(l => { %>
+      <tr>
+        <td><%= l.id_layanan %></td>
+        <td><%= l.nama_layanan %></td>
+        <td><%= l.deskripsi_layanan %></td>
+        <td><%= l.harga_layanan %></td>
+      </tr>
+    <% }) %>
+  </table>
+  <a href="/logout">Logout</a>
+</body>
+</html>

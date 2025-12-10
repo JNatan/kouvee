@@ -1,0 +1,36 @@
+<h2>Pembayaran Transaksi</h2>
+
+<p><strong>Customer:</strong> <%= trx.nama_customer %></p>
+
+<p><strong>Total Asli:</strong> Rp <%= trx.total.toLocaleString() %></p>
+
+<p><strong>Diskon:</strong> Rp <%= trx.diskon.toLocaleString() %></p>
+
+<h3 style="color:green;">
+  Total Setelah Diskon: Rp <%= trx.total_setelah_diskon.toLocaleString() %>
+</h3>
+
+<p><strong>Sudah Dibayar:</strong> Rp <%= trx.bayar_total.toLocaleString() %></p>
+
+<p><strong>Sisa Pembayaran:</strong> Rp <%= trx.sisa.toLocaleString() %></p>
+
+<form method="POST" style="margin-top:15px;">
+  <label>Diskon (Jika diubah)</label>
+  <input type="number" name="diskon" value="<%= trx.diskon %>" required>
+
+  <label>Jumlah Bayar</label>
+  <input type="number" name="jumlah_bayar" required>
+
+  <button class="btn primary" type="submit">Bayar</button>
+</form>
+
+
+<h3>Detail Produk</h3>
+<% detail_produk.forEach(d => { %>
+  <p><%= d.nama_produk %> x <%= d.jumlah %></p>
+<% }) %>
+
+<h3>Detail Layanan</h3>
+<% detail_layanan.forEach(d => { %>
+  <p><%= d.nama_layanan %></p>
+<% }) %>

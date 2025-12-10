@@ -1,0 +1,41 @@
+<h2 style="margin-bottom:20px;">Transaksi Layanan</h2>
+
+<div class="top-actions">
+  <a class="btn primary" href="/transaksi-layanan/create">+ Transaksi Baru</a>
+</div>
+
+<table class="table sleek">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tanggal</th>
+      <th>Customer</th>
+      <th>Pegawai</th>
+      <th>Status</th>
+      <th>Total</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% transaksi.forEach(t => { %>
+      <tr>
+        <td><%= t.id_transaksi %></td>
+        <td>
+          <%= new Date(t.tanggal_transaksi).toLocaleDateString('id-ID',{
+            day:'2-digit', month:'long', year:'numeric'
+          }) %>
+        </td>
+        <td><%= t.nama_customer %></td>
+        <td><%= t.nama_pegawai %></td>
+        <td><%= t.status_pelayanan || '-' %></td>
+        <td>Rp <%= t.total.toLocaleString() %></td>
+
+        <td class="actions">
+          <a href="/transaksi-layanan/view/<%= t.id_transaksi %>" class="btn small">View</a>
+          <a href="/transaksi-layanan/edit/<%= t.id_transaksi %>" class="btn small">Edit</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
